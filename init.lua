@@ -236,6 +236,62 @@ vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 vim.keymap.set('i', 'jj', '<ESC>')
+vim.keymap.set('n', '<leader>qq', ':qa!', {})
+
+-- Moving cursor in insert mode
+vim.keymap.set('i', '<C-h>', '<Left>')
+vim.keymap.set('i', '<C-j>', '<Down>')
+vim.keymap.set('i', '<C-k>', '<Up>')
+vim.keymap.set('i', '<C-l>', '<Right>')
+
+-- Easy insertion of a trailing ; or , from insert mode.
+vim.keymap.set('i', ';;', '<Esc>A;')
+vim.keymap.set('i', ',,', '<Esc>A,')
+
+-- Quickly clear search highlighting.
+vim.keymap.set('n', '<Leader>k', ':nohlsearch<CR>')
+
+-- Open the current file in the default program (on Mac this should just be just `open`).
+vim.keymap.set('n', '<Leader>x', ':!xdg-open %<CR><CR>')
+
+-- Window splits
+vim.keymap.set('n', '<leader>n', '<C-w>n')
+vim.keymap.set('n', '<leader>sv', '<C-w>v')
+vim.keymap.set('n', '<leader>sh', '<C-w>s')
+vim.keymap.set('n', '<leader>sx', ':close<CR>')
+vim.keymap.set('n', '<leader>se', '<C-w>=') -- split equalize width
+
+-- Navigation
+-- done using christoomey/vim-tmux-navigator plugin
+vim.keymap.set('n', '<leader>m', ':MaximizerToggle<CR>') -- nvim maximizer plugin
+vim.keymap.set('n', '<leader>t', ':NvimTreeToggle<CR>')  -- nvim tree plugin
+
+
+-- Tabs
+vim.keymap.set('n', '<leader>tn', ':tabnew<CR>')
+vim.keymap.set('n', '<leader>tx', ':tabclose<CR>')
+vim.keymap.set('n', '<leader>th', ':tabn<CR>')
+vim.keymap.set('n', '<leader>tl', ':tabp<CR>')
+
+-- Move lines up and down.
+vim.keymap.set('i', '<A-j>', '<Esc>:move .+1<CR>==gi')
+vim.keymap.set('i', '<A-k>', '<Esc>:move .-2<CR>==gi')
+vim.keymap.set('n', '<A-j>', ':move .+1<CR>==')
+vim.keymap.set('n', '<A-k>', ':move .-2<CR>==')
+vim.keymap.set('v', '<A-j>', ":move '>+1<CR>gv=gv")
+vim.keymap.set('v', '<A-k>', ":move '<-2<CR>gv=gv")
+
+-- Reselect visual selection after indenting.
+vim.keymap.set('v', '<', '<gv')
+vim.keymap.set('v', '>', '>gv')
+
+-- Maintain the cursor position when yanking a visual selection.
+-- http://ddrscott.github.io/blog/2016/yank-without-jank/
+vim.keymap.set('v', 'y', 'myy`y')
+
+
+
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -293,13 +349,13 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'php', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'html',
+  ensure_installed = { 'php', 'c', 'lua', 'python', 'tsx', 'typescript', 'vimdoc', 'vim', 'html',
     'css', 'bash' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
 
-  highlight = { enable = true },
+  highlight = { enable = false },
   indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
     enable = true,
