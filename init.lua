@@ -65,8 +65,15 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
+  -- Nvim Tree
+  'nvim-tree/nvim-tree.lua',
+  'nvim-tree/nvim-web-devicons',
+
   -- Transparent
   'xiyaowong/transparent.nvim',
+
+  -- Toggle Terminal
+  { 'akinsho/toggleterm.nvim', version = "*", config = true },
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -101,7 +108,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',          opts = {} },
+  { 'folke/which-key.nvim',    opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -239,7 +246,8 @@ vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 vim.keymap.set('i', 'jj', '<ESC>')
-vim.keymap.set('n', '<leader>qq', ':qa!', {})
+vim.keymap.set('n', '<leader>qq', ':qa!<CR>', {})
+vim.keymap.set('n', '<leader>ww', ':w<CR>', {})
 
 -- Moving cursor in insert mode
 vim.keymap.set('i', '<C-h>', '<Left>')
@@ -557,6 +565,7 @@ cmp.setup {
   },
 }
 
+-- Transparent
 require("transparent").setup({
   groups = { -- table: default groups
     'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
@@ -567,6 +576,27 @@ require("transparent").setup({
   extra_groups = {},   -- table: additional groups that should be cleared
   exclude_groups = {}, -- table: groups you don't want to clear
 })
+
+-- Nvim Tree
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+-- empty setup using defaults
+require("nvim-tree").setup()
+
+-- ToggleTerm
+require('toggleterm').setup {
+  size = 20,
+  open_mapping = [[`]],
+  persist_size = true,
+  persist_mode = true,
+  direction = 'float',
+  auto_scroll = true,
+}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
