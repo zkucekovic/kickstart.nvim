@@ -1,3 +1,5 @@
+-- require('modularinit')
+
 --[[
 
  ====================================================================
@@ -243,6 +245,25 @@ vim.keymap.set('i', 'jj', '<ESC>')
 vim.keymap.set('n', '<leader>qq', ':qa!<CR>', {})
 vim.keymap.set('n', '<leader>ww', ':w<CR>', {})
 
+-- File operations
+function NewFile()
+  local filename = vim.fn.input('Enter file name: ')
+  local filepath = vim.fn.expand('%:p:h') .. '/' .. filename
+  if vim.fn.filereadable(filepath) == 1 then
+    local choice = vim.fn.input('File already exists. Do you want to change the filename? (y/n): ')
+    if choice == 'y' or choice == 'Y' then
+      NewFile()
+    else
+      print('File creation canceled.')
+    end
+  else
+    vim.cmd('vsplit ' .. filepath)
+    print('New file created: ' .. filepath)
+  end
+end
+
+vim.api.nvim_set_keymap('n', '<leader>nf', ':lua NewFile()<CR>', { noremap = true })
+
 -- Moving cursor in insert mode
 vim.keymap.set('i', '<C-h>', '<Left>')
 vim.keymap.set('i', '<C-j>', '<Down>')
@@ -261,9 +282,9 @@ vim.keymap.set('n', '<Leader>x', ':!xdg-open %<CR><CR>')
 
 -- Window splits
 vim.keymap.set('n', '<leader>n', '<C-w>n')
-vim.keymap.set('n', '<leader>sv', '<C-w>v')
-vim.keymap.set('n', '<leader>sh', '<C-w>s')
-vim.keymap.set('n', '<leader>sx', ':close<CR>')
+vim.keymap.set('n', '<leader>vs', '<C-w>v')
+vim.keymap.set('n', '<leader>hs', '<C-w>s')
+vim.keymap.set('n', '<leader>x', ':close<CR>')
 vim.keymap.set('n', '<leader>se', '<C-w>=') -- split equalize width
 
 -- Navigation
@@ -624,6 +645,7 @@ require("catppuccin").setup({
     -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
   },
 })
+
 
 -- setup must be called before loading
 vim.cmd.colorscheme "catppuccin"
